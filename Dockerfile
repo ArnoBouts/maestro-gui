@@ -1,4 +1,4 @@
-FROM scratch
+FROM cogniteev/echo
 
 VOLUME /maestro/static
 
