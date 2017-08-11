@@ -1,0 +1,19 @@
+pipeline:
+  build:
+    image: node:alpine
+    commands:
+      - npm install
+      - npm run build
+
+  publish:
+    image: plugins/docker
+    registry: no-cloud.fr
+    repo: no-cloud.fr/maestro/gui
+    tag: latest
+    file: Dockerfile
+
+  notify:
+    image: no-cloud.fr/drone-xmpp
+    secrets: [ xmpp_jid, xmpp_password, xmpp_to ]
+    when:
+      status: [ success, failure ]
