@@ -5,17 +5,17 @@
       <section class="navbar-section">
         <a class="btn btn-lg btn-link btn-action show-sm" v-on:click="showSidebar()"><i class="icon icon-menu"></i></a>
         <a href="#" class="navbar-brand mr-10">Maestro</a>
-        <a href="#" class="btn btn-link">Applications</a>
-        <a href="#" class="btn btn-link">Users</a>
+        <a href="#/applications" class="btn btn-link">Applications</a>
+        <a href="#/users" class="btn btn-link">Users</a>
       </section>
       <section class="navbar-section">
         <a href="#" class="btn btn-link">Logout</a>
       </section>
     </header>
   </section>
-  <section class="container grid-960">
+  <section class="container grid-1280">
     <section class="columns">
-      <div class="sidebar column col-3 col-sm-12" v-bind:class="{ 'sidebar-visible': isSlidebarVisible }">
+      <div class="sidebar column col-3 col-sm-12" v-bind:class="{ 'sidebar-visible': isSidebarVisible }">
         <ul class="sidebar-nav nav">
           <li class="nav-item active">
             <a href="index.html#introduction">Getting started</a>
