@@ -32,12 +32,12 @@ export default {
   },
   mounted: function () {
     this.$http.get('/catalog').then(response => {
-      this.catalog = JSON.parse(response.body)
-      // this.catalog = response.body
+      // this.catalog = JSON.parse(response.body)
+      this.catalog = response.body
     })
     this.$http.get('/services').then(response => {
-      this.services = JSON.parse(response.body)
-      // this.services = response.body
+      // this.services = JSON.parse(response.body)
+      this.services = response.body
     })
   },
   methods: {
