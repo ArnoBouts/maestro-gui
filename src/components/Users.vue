@@ -19,7 +19,10 @@
       <div class="column col-6">
         <div class="columns">
           <div class="column col-3" v-for="(grant, service) in grants[user.dn]">
-            <label class="form-checkbox"><input type="checkbox" v-model="grant.granted" /><i class="form-icon"></i>&nbsp;</label>
+            <label class="form-checkbox">
+              <input type="checkbox" v-model="grant.granted" v-on:change.stop="grantService(service, user.dn)" />
+              <i class="form-icon"></i>
+            </label>
           </div>
         </div>
       </div>
@@ -70,6 +73,12 @@ export default {
         }
       }
       return false
+    },
+    grantService: function (service, user) {
+      this.$http.patch('/persons/' + user + '/services/' + service, this.grants[user][service].granted).then(response => {
+      }, response => {
+        this.grants[user][service].granted = !this.grants[user][service].granted
+      })
     }
   }
 }
