@@ -1,32 +1,61 @@
 <template>
   <div class="container">
-    <div class="columns col-oneline">
-      <div class="column col-2">cn</div>
-      <div class="column col-2">sn</div>
-      <div class="column col-2">mail</div>
-      <div class="column col-6">
-        <div class="text-center">Services</div>
-        <div class="columns">
-          <div class="column col-3" v-for="group in groups">{{group.cn}}</div>
-        </div>
-      </div>
-    </div>
+    <div class="columns col-gapless">
 
-    <div class="columns col-oneline" v-for="user in users">
-      <div class="column col-2">{{user.cn}}</div>
-      <div class="column col-2">{{user.sn}}</div>
-      <div class="column col-2">{{user.mail}}</div>
-      <div class="column col-6">
+      <div class="column col-6 container">
+
         <div class="columns">
-          <div class="column col-3" v-for="(grant, service) in grants[user.dn]">
+          <div class="column col-4">Login</div>
+          <div class="column col-4">Name</div>
+          <div class="column col-4">Email</div>
+        </div>
+        <div class="columns" v-for="user in users">
+          <div class="column col-4">{{user.cn}}</div>
+          <div class="column col-4">{{user.sn}}</div>
+          <div class="column col-4">{{user.mail}}</div>
+        </div>
+        <div class="columns">
+          <div class="column col-4"><input type="text" v-model="newUser.cn" /></div>
+          <div class="column col-4"><input type="text" v-model="newUser.sn" /></div>
+          <div class="column col-4"><input type="text" v-model="newUser.mail" /></div>
+        </div>
+
+      </div>
+      <div class="column col-5 container">
+
+        <div class="columns col-oneline">
+          <div class="column col-6" v-for="group in groups">{{group.cn}}</div>
+        </div>
+        <div class="columns col-oneline" v-for="user in users">
+          <div class="column col-6" v-for="(grant, service) in grants[user.dn]">
             <label class="form-checkbox">
               <input type="checkbox" v-model="grant.granted" v-on:change.stop="grantService(service, user.dn)" />
-              <i class="form-icon"></i>
+              <i class="form-icon"></i>&nbsp;
             </label>
           </div>
         </div>
+
+      </div>
+      <div class="column col-1 container">
+
+        <div class="columns">
+          <div class="column col-1">
+          </div>
+        </div>
+        <div class="columns" v-for="user in users">
+          <div class="column col-12">
+            <button class="btn btn-sm btn-action" v-on:click="deleteUser(user.dn)"><i class="icon icon-delete"></i></button>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column col-1">
+            <button class="btn btn-sm btn-action" v-on:click="addUser(newUser.cn, newUser.sn, newUser.mail)"><i class="icon icon-plus"></i></button>
+          </div>
+        </div>
+
       </div>
     </div>
+
   </div>
 </template>
 
@@ -36,11 +65,12 @@ export default {
   data () {
     return {
       users: JSON.parse('[{"dn":"cn=home,ou=people,dc=home","cn":"home","sn":"home","mail":"","gidNumber":0,"uidNumber":0},{"dn":"cn=arnaud,ou=people,dc=home","cn":"arnaud","sn":"Arnaud Bouts","mail":"arnaud@bouts.me","gidNumber":901,"uidNumber":901}]'),
-      groups: JSON.parse('[{"dn":"cn=mail,ou=groups,dc=home","cn":"mail","members":["","cn=arnaud,ou=people,dc=home"]},{"dn":"cn=nextcloud,ou=groups,dc=home","cn":"nextcloud","members":[""]}]')
+      groups: JSON.parse('[{"dn":"cn=mail,ou=groups,dc=home","cn":"mail","members":["","cn=arnaud,ou=people,dc=home"]},{"dn":"cn=nextcloud,ou=groups,dc=home","cn":"nextcloud","members":[""]}]'),
+      newUser: {}
     }
   },
   mounted: function () {
-    this.$http.get('/person').then(response => {
+    this.$http.get('/persons').then(response => {
       this.users = response.body
     })
     this.$http.get('/groups').then(response => {
@@ -78,6 +108,15 @@ export default {
       this.$http.patch('/persons/' + user + '/services/' + service, this.grants[user][service].granted).then(response => {
       }, response => {
         this.grants[user][service].granted = !this.grants[user][service].granted
+      })
+    },
+    addUser: function (cn, sn, mail) {
+      this.$http.post('/persons', {dn: 'cn=' + cn + ',ou=people,dc=home', cn: cn, sn: sn, mail: mail, uidNumber: 0, gidNumber: 0}).then(response => {
+      })
+    },
+    deleteUser: function (user) {
+      this.$http.delete('/persons/' + user).then(response => {
+        alert('deleted')
       })
     }
   }
