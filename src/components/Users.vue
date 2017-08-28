@@ -1,55 +1,53 @@
 <template>
   <div class="container">
-    <div class="columns col-gapless">
+    <div class="columns">
 
-      <div class="column col-6 container">
+      <div class="column is-6">
 
         <div class="columns">
-          <div class="column col-4">Login</div>
-          <div class="column col-4">Name</div>
-          <div class="column col-4">Email</div>
+          <div class="column is-4">Login</div>
+          <div class="column is-4 is-hidden-touch">Name</div>
+          <div class="column is-4 is-hidden-touch">Email</div>
         </div>
         <div class="columns" v-for="user in users">
-          <div class="column col-4">{{user.cn}}</div>
-          <div class="column col-4">{{user.sn}}</div>
-          <div class="column col-4">{{user.mail}}</div>
+          <div class="column is-4">{{user.cn}}</div>
+          <div class="column is-4 is-hidden-touch">{{user.sn}}</div>
+          <div class="column is-4 is-hidden-touch">{{user.mail}}</div>
         </div>
         <div class="columns">
-          <div class="column col-4"><input type="text" v-model="newUser.cn" /></div>
-          <div class="column col-4"><input type="text" v-model="newUser.sn" /></div>
-          <div class="column col-4"><input type="text" v-model="newUser.mail" /></div>
+          <div class="column is-4"><input type="text" v-model="newUser.cn" /></div>
+          <div class="column is-4 is-hidden-touch"><input type="text" v-model="newUser.sn" /></div>
+          <div class="column is-4 is-hidden-touch"><input type="text" v-model="newUser.mail" /></div>
         </div>
 
       </div>
-      <div class="column col-5 container">
+      <div class="column is-5">
 
-        <div class="columns col-oneline">
-          <div class="column col-6" v-for="group in groups">{{group.cn}}</div>
+        <div class="columns">
+          <div class="column is-6" v-for="group in groups">{{group.cn}}</div>
         </div>
-        <div class="columns col-oneline" v-for="user in users">
-          <div class="column col-6" v-for="(grant, service) in grants[user.dn]">
-            <label class="form-checkbox">
+        <div class="columns" v-for="user in users">
+          <div class="column is-6" v-for="(grant, service) in grants[user.dn]">
+            <label class="checkbox">
               <input type="checkbox" v-model="grant.granted" v-on:change.stop="grantService(service, user.dn)" />
-              <i class="form-icon"></i>&nbsp;
             </label>
           </div>
         </div>
-
       </div>
-      <div class="column col-1 container">
+      <div class="column is-1">
 
         <div class="columns">
-          <div class="column col-1">
+          <div class="column is-1">
           </div>
         </div>
         <div class="columns" v-for="user in users">
-          <div class="column col-12">
-            <button class="btn btn-sm btn-action" v-on:click="deleteUser(user.dn)"><i class="icon icon-delete"></i></button>
+          <div class="column is-12">
+            <button class="button is-small" v-on:click="deleteUser(user.dn)"><i class="fa fa-user-times"></i></button>
           </div>
         </div>
         <div class="columns">
-          <div class="column col-1">
-            <button class="btn btn-sm btn-action" v-on:click="addUser(newUser.cn, newUser.sn, newUser.mail)"><i class="icon icon-plus"></i></button>
+          <div class="column is-1">
+            <button class="button is-small" v-on:click="addUser(newUser.cn, newUser.sn, newUser.mail)"><i class="fa fa-user-plus"></i></button>
           </div>
         </div>
 

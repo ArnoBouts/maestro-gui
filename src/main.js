@@ -4,8 +4,8 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
-import 'spectre.css/dist/spectre.css'
-import 'spectre.css/dist/spectre-icons.css'
+import 'font-awesome/css/font-awesome.css'
+import 'bulma/css/bulma.css'
 
 Vue.config.productionTip = false
 
